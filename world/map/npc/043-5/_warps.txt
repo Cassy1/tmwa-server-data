@@ -1,0 +1,5 @@
+// This file is generated automatically. All manually changes will be removed when running the Converter.
+// Witch Cave warps
+
+043-5.gat,30,108|warp|To Troll Cave|-1,-1,043-4.gat,194,25
+043-5.gat,126,26|warp|To Snake Pit|-1,-1,005-3.gat,27,40
