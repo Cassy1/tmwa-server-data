@@ -2,16 +2,19 @@
 // Authors: Jenalya, alastrim
 // Cleanup: o11c
 
-042-2.gat,37,90,0|script|Tanisha|114,
+042-2.gat,110,88,0|script|Tanisha|114,
 {
-    if (isin("042-2.gat", 30, 85, 36, 89))
+    setarray @npc_loc, 110, 88, 4;
+    callfunc "PCtoNPCRange";
+    if (@npc_check)
+        goto L_Close;
+
+    if (isin("042-2.gat", 98, 84, 106, 89))
         goto L_Fighting;
 
-    if (FLAGS & FLAG_TUTORIAL_DONE)  goto L_Tut_Done;
-
     callfunc "TutorialState";
-    if ((@tutorial == 11) && !(@tanisha_hasan)) goto L_Hasan;
-    if (@tutorial >= 8) goto L_Again;
+    if (@tutorial == 10) goto L_Hasan;
+    if (@tutorial >= 8) goto L_Tut_Done;
     if (@tutorial == 7) goto L_Stats;
     if (@tutorial == 6) goto L_Fail;
     if (@tutorial == 5) goto L_Maggots;
@@ -42,8 +45,7 @@ L_Maggots:
     mes "\"If you kill them, I'll give you my knife.";
     mes "What do you say?\"";
     menu
-        "Sure!",L_Next1,
-        "That's your job.",L_Close;
+        "I guess it's the least I can do.",L_Next1;
 
 L_Next1:
     mes "[Tanisha]";
@@ -51,7 +53,7 @@ L_Next1:
     // since the check happens here, it is actually possible to have
     // more than $@Maggot_MaxHunters in the area at one time
     // but that's not a BIG problem
-    if (getareausers("042-2.gat", 30, 85, 36, 89) >= $@Maggot_MaxHunters)
+    if (getareausers("042-2.gat", 98, 84, 106, 89) >= $@Maggot_MaxHunters)
         goto L_Crowded;
     next;
     goto L_Fight_Again;
@@ -60,14 +62,14 @@ L_Fight_Again:
     mes "\"Ok, listen what to do.";
     mes "Equip a weapon and kill the maggots.\"";
     next;
-    mes "\"Press A to focus on a monster. With X you can focus and start attacking the same time.";
+    mes "\"Press A to focus on a monster. With ###keyTargetAttack; you can focus and start attacking the same time.";
     mes "But it also works to click on the monster with your mouse.\"";
     next;
-    mes "\"If you press the left Shift button, you can abort your attack.\"";
+    mes "\"If you press the ###keyTarget;, you can abort your attack.\"";
     next;
     mes "\"Maggots aren't aggressive, so they won't harm you until you attack them first. Take them out one by one.\"";
     next;
-    mes "\"Sometimes dead monsters leave some useful things. You can pick them up by pressing Z or clicking on the items with your mouse.\"";
+    mes "\"Sometimes dead monsters leave some useful things. You can pick them up by pressing ###keyPickup; or clicking on the items with your mouse.\"";
     close2;
     // The getitem must be in the same place as set @tutorial, 2;
     // since it was moved to after L_Fight_Again, add it conditionally
@@ -87,13 +89,13 @@ L_ContinueFight:
     callfunc "SetTutorialMask";
     set @Maggot_Kills, 0;
     set @time, 0;
-    if (getareausers("042-2.gat", 30, 85, 36, 89) == 0)
+    if (getareausers("042-2.gat", 98, 84, 106, 89) == 0)
         initnpctimer;
-    warp "042-2.gat", 33, 87;
+    warp "042-2.gat", 101, 87;
     goto L_Summon;
 
 L_Summon:
-    areamonster "042-2.gat", 30, 85, 36, 89, "", 1002, 1, "Tanisha::OnMaggotDeath";
+    areamonster "042-2.gat", 98, 84, 106, 89, "", 1002, 1, "Tanisha::OnMaggotDeath";
     end;
 
 L_Stats:
@@ -103,7 +105,13 @@ L_Stats:
     mes "\"And it seems you became stronger and more experienced.";
     mes "That means you got some status points which you can use to increase your abilities.\"";
     next;
-    mes "\"Press F2 or click the Status button in the bar at the upper right to see your status window. There you can distribute your points on six different properties.\"";
+    mes "\"Press ###keyWindowStatus; or click the Status button in the bar at the upper right to see your status window. There you can distribute your points on six different properties.\"";
+    next;
+    mes "\"My Uncle sitting at the counter knows a spell to help the younglings reset their stats.\"";
+    next;
+    mes "\"He also knows of mages with even more powerful reset spells.\"";
+    next;
+    mes "\"Some strange wizard lurking around in the Tulimshar Noble Quarter.\"";
     next;
     goto L_StatsRe;
 
@@ -123,14 +131,16 @@ L_StatsRe:
     next;
     mes "\"Think about how you want to play before assigning the points.\"";
     next;
-    mes "\"Also I heard rumors about a strange guy lurking around in the desert south of Tulimshar who can help you to forget your abilities!\"";
+    mes "\"My Uncle sitting at the counter knows a spell to help the younglings reset their stats.\"";
+    next;
+    mes "\"He also knows of mages with even more powerful reset spells.\"";
+    next;
+    mes "\"Some strange wizard lurking around in the Tulimshar Noble Quarter.\"";
+    next;
     mes "Tanisha looks at you with wide opened eyes.";
     next;
     mes "[Tanisha]";
     mes "\"But I doubt he'd do that without a service in return.\"";
-
-    if (@tutorial != 7)
-        goto L_Close;
     goto L_Money;
 
 L_Money:
@@ -138,6 +148,8 @@ L_Money:
     mes "[Tanisha]";
     mes "\"Hey, you are so smart taking out all that yucky maggots for me.";
     mes "You can have my pocket money. Here.\"";
+    set @tutorial_tmp, 8;
+    callfunc "SetTutorialMask";
     set Zeny, Zeny + 5;
     next;
     goto L_Advice;
@@ -146,21 +158,7 @@ L_Advice:
     mes "\"When you go to Tulimshar, you should see Bernard. He can make a delicious soup!";
     mes "Good luck!\"";
     emotion EMOTE_HAPPY;
-    if (@tutorial == 7)
-        goto L_SetTutorial;
     goto L_Close;
-
-L_SetTutorial:
-    set @tutorial_tmp, 8;
-    callfunc "SetTutorialMask";
-    goto L_Close;
-
-L_Again:
-    mes "[Tanisha]";
-    mes "\"Hi there! Is everything alright? Do you have questions?\"";
-    menu
-        "Yes, could you explain again about...",L_Explain,
-        "No, thanks.",L_Close;
 
 L_Explain:
     menu
@@ -172,14 +170,14 @@ L_Explain:
 
 L_Fight:
     mes "[Tanisha]";
-    mes "\"Press A to focus on a monster. With X you can focus and attack.";
+    mes "\"Press ###keyTargetMonster; to focus on a monster. With ###keyTargetAttack; you can focus and attack.";
     mes "But it also works to click on the monster with your mouse.\"";
     next;
-    mes "\"If you press the left Shift button, you can abort your attack.\"";
+    mes "\"If you press the ###keyTarget; button, you can abort your attack.\"";
     next;
-    mes "\"Sometimes dead monsters leave some useful things. You can pick them up with pressing Z or clicking on the items with your mouse.\"";
+    mes "\"Sometimes dead monsters leave some useful things. You can pick them up with pressing ###keyPickup; or clicking on the items with your mouse.\"";
     next;
-    mes "\"If you feel exhausted from battle you can sit down by pressing S to recover faster.\"";
+    mes "\"If you feel exhausted from battle you can sit down by pressing ###keyBeingSit; to recover faster.\"";
     goto L_Close;
 
 L_Mob:
@@ -198,7 +196,7 @@ L_Hasan:
     mes "[Tanisha]";
     mes "\"Hi there! Is everything alright? Do you have questions?\"";
     menu
-        "A guy named Hasan won't let me enter Tulimshar.",L_Next3,
+        "A guy named Hasan is being mean.",L_Next3,
         "Yes, could you explain again about...",L_Explain,
         "No, thanks.",L_Close;
 
@@ -209,7 +207,8 @@ L_Next3:
     mes "\"The only thing he's afraid of are scorpions.";
     mes "I'm not sure why, some bad experience when he was a child.";
     mes "That was before I was born.\"";
-    set TUTORIAL, TUTORIAL | $@TanishaHasanBit;
+    set @tutorial_tmp, 11;
+    callfunc "SetTutorialMask";
     goto L_Close;
 
 L_Tut_Done:
@@ -233,7 +232,7 @@ L_Crowded:
     goto L_Close;
 
 L_Sleep:
-    warp "042-2.gat", 36, 90;
+    warp "042-2.gat", 101, 87;
     mes "[Tanisha]";
     mes "\"What are you doing in there?";
     mes "Sleeping?";
@@ -241,7 +240,7 @@ L_Sleep:
     set @Maggot_Kills, 0;
     set @time, 0;
     close2;
-    if (getareausers("042-2.gat", 30, 85, 36, 89) == 0)
+    if (getareausers("042-2.gat", 98, 84, 106, 89) == 0)
         goto L_CleanUp;
     end;
 
@@ -259,7 +258,7 @@ L_Fail:
         "No, I need a rest.", L_Close;
 
 L_Next2:
-    if (getareausers("042-2.gat", 30, 85, 36, 89) >= $@Maggot_MaxHunters)
+    if (getareausers("042-2.gat", 98, 84, 106, 89) >= $@Maggot_MaxHunters)
         goto L_Crowded;
     goto L_Fight_Again;
 
@@ -269,17 +268,17 @@ L_Fighting:
 
 OnTimer1000:
     setnpctimer 0;
-    if (getareausers("042-2.gat", 30, 85, 36, 89) == 0)
+    if (getareausers("042-2.gat", 98, 84, 106, 89) == 0)
         goto L_CleanUp;
     // This is needed because multiple players can be in the area at once
-    areatimer "042-2.gat", 30, 85, 36, 89, 0, "Tanisha::OnTick";
+    areatimer "042-2.gat", 98, 84, 106, 89, 0, "Tanisha::OnTick";
     end;
 
 L_CleanUp:
     killmonster "042-2.gat", "Tanisha::OnMaggotDeath";
     set $@Maggot_Hunters, 0;
     stopnpctimer;
-    areamonster "042-2.gat", 30, 85, 36, 89, "", 1002, 1, "Tanisha::OnMaggotDeath";
+    areamonster "042-2.gat", 98, 84, 106, 89, "", 1002, 1, "Tanisha::OnMaggotDeath";
     end;
 
 OnTick:
@@ -301,26 +300,43 @@ OnMaggotDeath:
         message strcharinfo(0), "Tanisha: Ohh... Irrhk... Eeeeww... They just appear from nowhere!";
     if (@Maggot_Kills == 3)
         message strcharinfo(0), "Tanisha: Yuck... I think I am getting sick.";
-    if (isin("042-2.gat", 30, 85, 36, 89))
+    if (isin("042-2.gat", 98, 84, 106, 89))
         set @Maggot_Kills, @Maggot_Kills + 1;
     if (@Maggot_Kills < 5)
         goto L_Summon;
     // else, complete
-    warp "042-2.gat", 36, 90;
+    warp "042-2.gat", 110, 88;
     set @tutorial_tmp, 7;
     callfunc "SetTutorialMask";
     set @Maggot_Kills, 0;
     set @time, 0;
-    if (getareausers("042-2.gat", 30, 85, 36, 89) == 0)
+    if (getareausers("042-2.gat", 98, 84, 106, 89) == 0)
         goto L_CleanUp;
     end;
 
 L_Close:
-    set @menu, 0;
     close;
 
 OnInit:
     set $@Maggot_MaxHunters, 4;
-    areamonster "042-2.gat", 30, 85, 36, 89, "", 1002, 1, "Tanisha::OnMaggotDeath";
+    areamonster "042-2.gat", 98, 84, 106, 89, "", 1002, 1, "Tanisha::OnMaggotDeath";
+    end;
+}
+042-2.gat,114,93,0|script|#DoorOutTut2|45,0,0
+{
+    end;
+
+OnTouch:
+    callfunc "TutorialState";
+    if (@tutorial >= 8)
+        goto L_Warp;
+    goto L_Block;
+
+L_Warp:
+    warp "042-1.gat", 63, 48;
+    end;
+
+L_Block:
+    message strcharinfo(0), "Tanisha: Please come here. I'd like some help!";
     end;
 }

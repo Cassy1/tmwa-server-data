@@ -1,8 +1,12 @@
 // This file is part of the Tutorial
 // Author: Jenalya
-
-042-2.gat,28,26,0|script|Sorfina|154,4,4
+042-2.gat,28,26,0|script|Sorfina|154,1,4
 {
+    setarray @npc_loc, 28, 26, 4;
+    callfunc "PCtoNPCRange";
+    if (@npc_check)
+        goto L_Close;
+
     callfunc "TutorialState";
 
     if ((Hp != MaxHp) && (@tutorial >= 4))
@@ -17,8 +21,7 @@ L_Heal:
     goto L_Main;
 
 L_Main:
-    if (FLAGS & FLAG_TUTORIAL_DONE) goto L_Again;
-    if ((@tutorial == 11) && !(@sorfina_hasan)) goto L_Hasan;
+    if (@tutorial == 10) goto L_Hasan;
     if (@tutorial >= 4) goto L_Again;
     if (@tutorial == 3) goto L_Clothes;
     if (@tutorial == 2) goto L_Chest;
@@ -65,8 +68,10 @@ L_Tut:
 
 L_Carpet:
     mes "[Sorfina]";
-    mes "\"Try to take a few steps and walk to that red carpet over there.";
-    mes "Just use the arrow keys or click on the place you want to go to.\"";
+    mes "\"Try to take a few steps and walk to that carpet over there.";
+    mes "Just use the ###keyMoveUp; to move up, ###keyMoveDown; to move down, ";
+    mes " ###keyMoveLeft; to move left, ###keyMoveRight; to move right ";
+    mes " or click on the place you want to go to.\"";
     set @tutorial_tmp, 1;
     callfunc "SetTutorialMask";
     goto L_Close;
@@ -75,18 +80,18 @@ L_Chest:
     mes "[Sorfina]";
     mes "\"In that chest there are some clothes you can take.\"";
     next;
-    mes "\"To interact with things in your environment or talk to NPCs you can either click on it or press N to focus and T to talk/activate.\"";
+    mes "\"To interact with things in your environment or talk to NPCs you can either click on it or press ###keyTargetNPC; to focus and ###keyTalk; to talk/activate.\"";
     next;
     mes "\"Now get the clothes out of the chest.\"";
     goto L_Close;
 
 L_Naked:
     mes "[Sorfina]";
-    mes "\"Press F3 or click on the Inventory button in the bar at the upper right corner to open your bag.\"";
+    mes "\"Press ###keyWindowInventory; or click on the Inventory button in the bar at the upper right corner to open your bag.\"";
     next;
-    mes "\"Once we stop talking, click on the clothes and press the equip button.\"";
+    mes "\"Once we stop talking, double-click on the clothes to equip.\"";
     next;
-    mes "\"Talk to me again after you get dressed. You can either click on me, or press N to focus on me and T to talk.\"";
+    mes "\"Talk to me again after you get dressed. You can either click on me, or press ###keyTargetNPC; to focus on me and ###keyTalk; to talk.\"";
     goto L_Close;
 
 L_Clothes:
@@ -103,7 +108,7 @@ L_Clothes:
     mes "\"I think this will help you a bit. To get more information, press the button Setup and look at the controls on the Keyboard tab. You can also change them as you like.";
     mes "Talk to me again if you want me to explain more things.\"";
     next;
-    mes "\"Now you should go to see my granddaughter, she is very worried. She's in the storehouse, that's the second building southeast from here.\"";
+    mes "\"Now you should go to see my granddaughter, she is very worried. She's downstairs.\"";
     next;
     mes "\"Oh, and if you're looking for work, you should talk to Aidan when you go to Tulimshar. They're giving rewards for monster hunting.";
     mes "You can find him near the south gate.\"";
@@ -136,23 +141,25 @@ L_Explain:
 L_Walk:
     mes "[Sorfina]";
     mes "\"You can use the arrow keys to walk around.";
-    mes "Or just click on the place you want to go to.";
-    mes "But this only works if that place is reachable and walkable.\"";
+    mes "Just use the ###keyMoveUp; to move up, ###keyMoveDown; to move down, ";
+    mes " ###keyMoveLeft; to move left, ###keyMoveRight; to move right ";
+    mes " or click on the place you want to go to.\"";
+    mes "This only works if that place is reachable and walkable.\"";
     goto L_Close;
 
 L_Talk:
     mes "[Sorfina]";
     mes "\"If you want to talk to a normal person, you can click at him or her.";
-    mes "Or you can press N to focus on the nearest person and then press T to talk.\"";
+    mes "Or you can press ###keyTargetNPC; to focus on the nearest person and then press ###keyTalk; to talk.\"";
     next;
-    mes "\"If you want to talk to other adventurers, press Enter to open your chat window.";
+    mes "\"If you want to talk to other adventurers, press ###keyChat; to open your chat window.";
     mes "Then type your message and press Enter to send.\"";
     next;
     mes "\"You may want to talk privately to another adventurer sometimes. In that case you can whisper.";
-    mes "After pressing Enter type '/whisper [name] [message]'.";
+    mes "After pressing ###keyChat; type '/whisper [name] [message]'.";
     mes "Or you can right click on someone and choose the whisper option.\"";
     next;
-    mes "\"Press F7 to show and hide your chat window.\"";
+    mes "\"Press ###keyWindowChat; to show and hide your chat window.\"";
     goto L_Close;
 
 L_Items:
@@ -171,16 +178,16 @@ L_Items:
     mes "\"Your HitchHikers Towel will return you to your last set soul menhir or here if not set.\"";
     mes "\"It can't be used constantly as the magic needs time to power the jump.\"";
     next;
-    mes "\"Press F3 to open your inventory.";
+    mes "\"Press ###keyWindowInventory; to open your inventory.";
     mes "When placing your cursor over an item there, you can see a box with some information about that item.\"";
     next;
-    mes "\"To use or equip an item, select it by clicking on it.";
-    mes "Then press Use or Equip.\"";
+    mes "\"To use or equip an item, select it by double-clicking on it.";
+    mes "Selecting the item then pressing Use or Equip also works.\"";
     goto L_Close;
 
 L_Shortcut:
     mes "[Sorfina]";
-    mes "\"Press F8  or click the Shortcut button in the bar at the upper right to open your shortcut window.\"";
+    mes "\"Press ###keyOutfitShortcut1; or click the Shortcut button in the bar at the upper right to open your shortcut window.\"";
     next;
     mes "\"You can select the item you want to put on a shortcut with your mouse and then click on the position in the shortcut window you want to place it.\"";
     next;
@@ -207,7 +214,7 @@ L_Hasan:
     mes "[Sorfina]";
     mes "\"Make yourself at home! Do you have any questions?\"";
         menu
-            "A guy named Hasan won't let me enter Tulimshar.",L_Next,
+            "A guy named Hasan is bullying people.",L_Next,
             "Yes, could you explain again about...",L_Explain,
             "No, thanks.",L_Close;
 
@@ -232,7 +239,8 @@ L_Next:
     next;
     mes "\"However, the scorpions poison caused a bad fever and once Hasan had recovered from that, he was even more malicious than before.\"";
     mes "She sighs.";
-    set TUTORIAL, TUTORIAL | $@SorfinaHasanBit;
+    set @tutorial_tmp, 11;
+    callfunc "SetTutorialMask";
     goto L_Close;
 
 L_SkipTut:
@@ -245,7 +253,6 @@ L_SkipTut:
 L_Bye:
     mes "[Sorfina]";
     mes "\"Alright, if you say so. But take at least this.";
-    callfunc "TutorialCompleted";
     getitem "Knife", 1;
     getitem "SlingShot", 1;
     getitem "SlingBullet", 100;
@@ -253,6 +260,8 @@ L_Bye:
     getitem "CottonShirt", 1;
     getitem "RaggedShorts", 1;
     set Zeny, Zeny + 50;
+    set @tutorial_tmp, 8;
+    callfunc "SetTutorialMask";
     mes "Good luck.\"";
     goto L_Close;
 
@@ -291,7 +300,7 @@ OnTouch:
     close;
 }
 
-042-2.gat,27,23,0|script|Chest#tutorial|111,
+042-2.gat,29,23,0|script|Chest#tutorial|111,
 {
     callfunc "TutorialState";
     if (@tutorial > 2) goto L_Empty;
@@ -320,15 +329,15 @@ L_Empty:
     close;
 }
 
-042-2.gat,44,31,0|script|#DoorOut-@tutorial|45,0,0
+042-2.gat,44,31,0|script|#DoorOutTut1|45,0,0
 {
     end;
 
 OnTouch:
     callfunc "TutorialState";
-    if ((@tutorial < 4) && !(FLAGS & FLAG_TUTORIAL_DONE))
+    if (@tutorial < 4)
             goto L_Block;
-    warp "042-1.gat", 63, 49;
+    warp "042-1.gat", 51, 44;
     end;
 
 L_Block:

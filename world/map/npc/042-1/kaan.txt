@@ -1,19 +1,24 @@
 // This file is part of the Tutorial
 // Author: Jenalya
 
-042-1.gat,103,92,0|script|Kaan|160,
+042-1.gat,109,87,0|script|Kaan|160,
 {
-    if (FLAGS & FLAG_TUTORIAL_DONE) goto L_Tut_Done;
-    callfunc "TutorialState";
-    if (@tutorial == 13) goto L_Hasan_Saved;
-    if ($@ScorpionFighter == getcharid(3)) goto L_Run;
-    if (@tutorial == 12) goto L_Plan;
-    if ((@tutorial == 11) && ((@sorfina_hasan) || (@tanisha_hasan))) goto L_TrickKnown;
-    if (@tutorial == 11) goto L_Trick;
-    if (@tutorial == 10) goto L_Hasan;
-    if (@tutorial == 9) goto L_Out;
-    if (@tutorial == 8) goto L_Tanisha;
+    setarray @npc_loc, 109, 87, 4;
+    callfunc "PCtoNPCRange";
+    if (@npc_check)
+        goto L_Close;
 
+    callfunc "TutorialState";
+    if (!(@kaan_talked)) goto L_Tanisha;
+    if (@tutorial >= 13) goto L_TutDone;
+    if (@tutorial == 12) goto L_Plan;
+    if (@tutorial == 11) goto L_TrickKnown;
+    if (@tutorial == 10) goto L_Trick;
+    if (@tutorial == 9) goto L_Hasan;
+    goto L_Out;
+
+L_Tanisha:
+    set STARTAREA, STARTAREA | $@SpokeToKaan;
     mes "[Young Man]";
     mes "\"You're the person Tanisha brought here, right?";
     mes "My name is Kaan, I'm her brother.\"";
@@ -24,17 +29,12 @@
     mes "[Kaan]";
     mes "\"She hates maggots.\"";
     next;
-    mes "\"Maybe you should go and see her...she was really upset about what happened to you.\"";
-    goto L_Close;
-
-L_Tanisha:
-    mes "[Kaan]";
     mes "\"Did you already talk to Tanisha?\"";
     menu
-        "Yes, I helped her with the maggots.",L_Tanisha3,
-        "Yeah, and she's done with the maggots.",L_Tanisha3;
+        "Yes, I helped her with the maggots.",L_Tanisha1,
+        "Yeah, and she's done with the maggots.",L_Tanisha1;
 
-L_Tanisha3:
+L_Tanisha1:
     mes "[Kaan]";
     mes "\"Ah, that is good news.";
     mes "You know, we have a lot of problems with bugs here.\"";
@@ -59,17 +59,7 @@ L_Next:
     mes "\"Are you going to visit Tulimshar?";
     mes "The bazaar there is a wondeful place! Traders, entertainers, adventurers - it's very exciting.\"";
     next;
-    mes "\"Ah, I forgot. Without some money the bazaar is less fun I suppose.";
-    mes "Here, take this.\"";
-    set Zeny, Zeny + 15;
-    next;
     mes "\"And Ian the trainer is hanging around there often. You should talk to him, he's a smart guy.\"";
-    set @tutorial_tmp, 9;
-    callfunc "SetTutorialMask";
-    if (hasan)
-        menu
-            "A guy named Hasan won't let me enter Tulimshar.",L_Hasan,
-            "Thanks for the advice.",L_Close;
     goto L_Out;
 
 L_Out:
@@ -82,7 +72,7 @@ L_Hasan:
     mes "[Kaan]";
     mes "\"Hello! How are you? Did you already visit Tulimshar?\"";
     menu
-        "A guy named Hasan won't let me enter Tulimshar.",L_Next1,
+        "A guy named Hasan is bullying someone.",L_Next1,
         "Not yet.",L_Close;
 
 L_Next1:
@@ -93,7 +83,7 @@ L_Next1:
     mes "He might listen to one of the adult men, but they're all off to work in Tulimshar during the day.\"";
     next;
     mes "\"We should think about some kind of trick. Ah, if only I knew his weak point.\"";
-    set @tutorial_tmp, 11;
+    set @tutorial_tmp, 10;
     callfunc "SetTutorialMask";
     next;
     goto L_Trick;
@@ -130,7 +120,7 @@ L_Explain:
     mes "I'll watch you from this point.\"";
     next;
     mes "\"When you give me the sign, I'll throw the scorpion on him.";
-    mes "While he's distracted with the scorpion, you can pass.\"";
+    mes "I bet that will show him for the coward he really is.\"";
     next;
     mes "\"How's that? We can start as soon as you're ready.\"";
     goto L_Close;
@@ -143,23 +133,10 @@ L_Plan:
         "Yes please.",L_Explain,
         "No, everything's alright.",L_Close;
 
-L_Hasan_Saved:
-    mes "[Kaan]";
-    mes "\"I told you to pass when he's distracted, not to fight the scorpion!";
-    mes "But maybe Hasan is thankful now?\"";
-    next;
-    mes "\"Why don't you talk to him again and see what he says.\"";
-    goto L_Close;
-
-L_Tut_Done:
+L_TutDone:
     mes "[Kaan]";
     mes "\"Hi there. I hope you enjoy your time in Tulimshar.";
     mes "Hasan can be a real troublemaker, but it seems like he has calmed down for now.\"";
-    goto L_Close;
-
-L_Run:
-    mes "[Kaan]";
-    mes "\"He's distracted! What are you waiting for?\"";
     goto L_Close;
 
 L_Close:

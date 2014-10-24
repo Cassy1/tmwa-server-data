@@ -21,12 +21,12 @@
     set @illia_iron_powder, 13;
     set @illia_yeti_tear, 1;
     set @illia_iced_water, 4;
-    set @illia_min_level, 90;
+    set $@illia_min_level, 90;
 
-    if (getgmlevel() >= 40 && getequipid(equip_head) == 647 && (strcharinfo(0) == "AdminJen" || strcharinfo(0) == "V0id"))
+    if (getgmlevel() >= 40 && getequipid(equip_head) == 647)
         goto L_DeveloperBoard;
 
-    if (BaseLevel < @illia_min_level) goto L_Unexperienced;
+    if (BaseLevel < $@illia_min_level) goto L_Unexperienced;
     if ($@ILLIA_STATUS == 0) goto L_Introduce;
     if ($@ILLIA_STATUS == 1) goto L_PreparingSpell;
     if ($@ILLIA_STATUS == 2) goto L_ReadyToTeleport;
@@ -193,11 +193,6 @@ L_CheckTeleportSpellItems:
     set $@ILLIA_STATUS, 1;
     initnpctimer;
     set @illia_go_find_items, 0;
-    delitem "SapphirePowder", @illia_sapphire_powder;
-    delitem "AmethystPowder", @illia_amethyst_powder;
-    delitem "IronPowder", @illia_iron_powder;
-    delitem "FrozenYetiTear", @illia_yeti_tear;
-    delitem "IcedWater", @illia_iced_water;
 
     mes "[Valia]";
     mes "\"Very well! I can prepare the spell now!\"";
@@ -248,29 +243,30 @@ L_ChooseHelper1:
         goto L_WrongHelper1;
     if (isloggedin(getcharid(3, $@ILLIA_HELPER1$)) == 0)
         goto L_HelperDoesNotExist1;
-    attachrid(getcharid(3, $@ILLIA_HELPER1$));
-    if (BaseLevel < @illia_min_level)
+    if (!(attachrid(getcharid(3, $@ILLIA_HELPER1$))))
+        goto L_Exit;
+    if (BaseLevel < $@illia_min_level)
         goto L_HelperTooWeak1;
     set $@ILLIA_HELPER1$, strcharinfo(0);
     detachrid;
-    if (isloggedin($@ILLIA_HERO_ID) == 0)
-        goto L_Exit;
-    attachrid($@ILLIA_HERO_ID);
-    goto L_ChooseHelper2;
+    if (attachrid($@ILLIA_HERO_ID))
+        goto L_ChooseHelper2;
+    goto L_Exit;
 
 L_HelperTooWeak1:
     detachrid;
-    if (isloggedin($@ILLIA_HERO_ID) == 0)
+    if (!(attachrid($@ILLIA_HERO_ID)))
         goto L_Exit;
-    attachrid($@ILLIA_HERO_ID);
     mes "[Team Selector]";
     mes "The player " + $@ILLIA_HELPER1$ + " is too weak to help you.";
+    set $@ILLIA_HELPER1$, "";
     next;
     goto L_ChooseHelperConfirm1;
 
 L_HelperDoesNotExist1:
     mes "[Team Selector]";
     mes "This player " + $@ILLIA_HELPER1$ + " seems offline or does not exist.";
+    set $@ILLIA_HELPER1$, "";
     next;
     goto L_ChooseHelperConfirm1;
 
@@ -298,29 +294,30 @@ L_ChooseHelper2:
         goto L_WrongHelper2;
     if (isloggedin(getcharid(3, $@ILLIA_HELPER2$)) == 0)
         goto L_HelperDoesNotExist2;
-    attachrid(getcharid(3, $@ILLIA_HELPER2$));
-    if (BaseLevel < @illia_min_level)
+    if (!(attachrid(getcharid(3, $@ILLIA_HELPER2$))))
+        goto L_Exit;
+    if (BaseLevel < $@illia_min_level)
         goto L_HelperTooWeak2;
     set $@ILLIA_HELPER2$, strcharinfo(0);
     detachrid;
-    if (isloggedin($@ILLIA_HERO_ID) == 0)
-        goto L_Exit;
-    attachrid($@ILLIA_HERO_ID);
-    goto L_ChooseHelper3;
+    if (attachrid($@ILLIA_HERO_ID))
+        goto L_ChooseHelper3;
+    goto L_Exit;
 
 L_HelperTooWeak2:
     detachrid;
-    if (isloggedin($@ILLIA_HERO_ID) == 0)
-        goto L_Exit;
-    attachrid($@ILLIA_HERO_ID);
+    if (!(attachrid($@ILLIA_HERO_ID)))
+        goto_Exit;
     mes "[Team Selector]";
     mes "The player " + $@ILLIA_HELPER2$ + " is too weak to help you.";
+    set $@ILLIA_HELPER2$, "";
     next;
     goto L_ChooseHelperConfirm2;
 
 L_HelperDoesNotExist2:
     mes "[Team Selector]";
     mes "This player " + $@ILLIA_HELPER2$ + " seems offline or does not exist.";
+    set $@ILLIA_HELPER2$, "";
     next;
     goto L_ChooseHelperConfirm2;
 
@@ -349,24 +346,24 @@ L_ChooseHelper3:
         goto L_WrongHelper3;
     if (isloggedin(getcharid(3, $@ILLIA_HELPER3$)) == 0)
         goto L_HelperDoesNotExist3;
-    attachrid(getcharid(3, $@ILLIA_HELPER3$));
-    if (BaseLevel < @illia_min_level)
+    if (!(attachrid(getcharid(3, $@ILLIA_HELPER3$))))
+        goto L_Exit;
+    if (BaseLevel < $@illia_min_level)
         goto L_HelperTooWeak3;
     set $@ILLIA_HELPER3$, strcharinfo(0);
     detachrid;
-    if (isloggedin($@ILLIA_HERO_ID) == 0)
-        goto L_Exit;
-    attachrid($@ILLIA_HERO_ID);
+    if (!(attachrid($@ILLIA_HERO_ID)))
+        goto_Exit;
     mes $@ILLIA_HELPER1$ + ", " + $@ILLIA_HELPER2$ + " and " + $@ILLIA_HELPER3$ + " will be your three comrades.";
     close;
 
 L_HelperTooWeak3:
     detachrid;
-    if (isloggedin($@ILLIA_HERO_ID) == 0)
-        goto L_Exit;
-    attachrid($@ILLIA_HERO_ID);
+    if (!(attachrid($@ILLIA_HERO_ID)))
+        goto_Exit;
     mes "[Team Selector]";
     mes "The player " + $@ILLIA_HELPER3$ + " is too weak to help you.";
+    set $@ILLIA_HELPER3$, "";
     next;
     goto L_ChooseHelperConfirm3;
 
@@ -374,6 +371,7 @@ L_HelperTooWeak3:
 L_HelperDoesNotExist3:
     mes "[Team Selector]";
     mes "This player " + $@ILLIA_HELPER3$ + " seems offline or does not exist.";
+    set $@ILLIA_HELPER3$, "";
     next;
     goto L_ChooseHelperConfirm3;
 
@@ -389,6 +387,8 @@ L_PreparingSpell:
     close;
 
 L_ReadyToTeleport:
+    if ($@ILLIA_HELPER1$ == "" || $@ILLIA_HELPER2$ == "" || $@ILLIA_HELPER3$ == "")
+        goto L_PlayerGaveUp;
     if (strcharinfo(0) == $@ILLIA_HERO$)
         goto L_AskToTeleport;
     if (strcharinfo(0) == $@ILLIA_HELPER1$ || strcharinfo(0) == $@ILLIA_HELPER2$ || strcharinfo(0) == $@ILLIA_HELPER3$)
@@ -398,9 +398,26 @@ L_ReadyToTeleport:
     close;
 
 L_AskToTeleport:
-    // Check area users just to give a hint if there are players around,
-    // but do not actually check if the real helpers are here
-    if (getareausers("007-1.gat", 66, 73, 92, 88) < 4)
+    // Check area users just to give a hint if there are players around
+    // $@ILLIA_HERO$ $@ILLIA_HELPER1$ $@ILLIA_HELPER2$ $@ILLIA_HELPER3$
+    if (!(attachrid(getcharid(3,$@ILLIA_HELPER1$))))
+        goto L_NotEveryoneHere;
+    if (!(isin("007-1.gat", 66, 73, 92, 88)))
+        goto L_NotEveryoneHere;
+    detachrid;
+    if (!(attachrid(getcharid(3,$@ILLIA_HELPER2$))))
+        goto L_NotEveryoneHere;
+    if (!(isin("007-1.gat", 66, 73, 92, 88)))
+        goto L_NotEveryoneHere;
+    detachrid;
+    if (!(attachrid(getcharid(3,$@ILLIA_HELPER3$))))
+        goto L_NotEveryoneHere;
+    if (!(isin("007-1.gat", 66, 73, 92, 88)))
+        goto L_NotEveryoneHere;
+    detachrid;
+    if (!(attachrid(getcharid(3,$@ILLIA_HERO$))))
+        goto L_NotEveryoneHere;
+    if (!(isin("007-1.gat", 66, 73, 92, 88)))
         goto L_NotEveryoneHere;
     mes "[Valia]";
     mes "\"Everyone seems to be here. Make sure to stay close to me.\"";
@@ -409,6 +426,19 @@ L_AskToTeleport:
         "Wait a minute.", L_Exit;
 
 L_Next5:
+    if (
+        (countitem ("SapphirePowder") < @illia_sapphire_powder) ||
+        (countitem ("AmethystPowder") < @illia_amethyst_powder) ||
+        (countitem ("IronPowder") < @illia_iron_powder) ||
+        (countitem ("FrozenYetiTear") < @illia_yeti_tear) ||
+        (countitem ("IcedWater") < @illia_iced_water)
+        ) goto L_MissingTeleportSpellItems;
+    delitem "SapphirePowder", @illia_sapphire_powder;
+    delitem "AmethystPowder", @illia_amethyst_powder;
+    delitem "IronPowder", @illia_iron_powder;
+    delitem "FrozenYetiTear", @illia_yeti_tear;
+    delitem "IcedWater", @illia_iced_water;
+
     // Stop the 5mins timer and start it again.
     set $@ILLIA_STATUS, 3;
     initnpctimer;
@@ -646,6 +676,12 @@ OnTimer300000:
         end;
     npctalk $@ILLIA_HERO$ + ", you and your missing comrades made me lose a precious time! Out of my sight!";
     emotion EMOTE_UPSET;
+    if (attachrid($@ILLIA_HERO_ID))
+        goto L_KillHero;
+    goto L_EndQuest;
+
+L_KillHero:
+    percentheal -100, 0;
     goto L_EndQuest;
 
 }
