@@ -1,18 +1,18 @@
 // This file is generated automatically. All manually changes will be removed when running the Converter.
 // Witch Cave mobs
 
-043-5.gat,27,57,8,18|monster|UndeadWitch|1116,1,120000,60000,Mob043-5::On1116
-043-5.gat,66,31,23,16|monster|UndeadWitch|1116,1,120000,60000,Mob043-5::On1116
-043-5.gat,54,103,13,12|monster|UndeadWitch|1116,1,120000,60000,Mob043-5::On1116
-043-5.gat,63,61,24,5|monster|UndeadTroll|1117,2,120000,60000,Mob043-5::On1117
-043-5.gat,115,101,16,8|monster|UndeadTroll|1117,2,120000,60000,Mob043-5::On1117
-043-5.gat,127,75,10,10|monster|Snake|1010,4,120000,60000,Mob043-5::On1010
-043-5.gat,62,73,16,5|monster|Snake|1010,4,120000,60000,Mob043-5::On1010
-043-5.gat,104,54,9,20|monster|BlackScorpion|1009,4,120000,60000,Mob043-5::On1009
-043-5.gat,83,95,24,10|monster|BlackScorpion|1009,4,120000,60000,Mob043-5::On1009
+043-5.gat,27,57,8,18|monster|UndeadWitch|1116,1,120000ms,60000ms,Mob043-5::On1116
+043-5.gat,66,31,23,16|monster|UndeadWitch|1116,1,120000ms,60000ms,Mob043-5::On1116
+043-5.gat,54,103,13,12|monster|UndeadWitch|1116,1,120000ms,60000ms,Mob043-5::On1116
+043-5.gat,63,61,24,5|monster|UndeadTroll|1117,2,120000ms,60000ms,Mob043-5::On1117
+043-5.gat,115,101,16,8|monster|UndeadTroll|1117,2,120000ms,60000ms,Mob043-5::On1117
+043-5.gat,127,75,10,10|monster|Snake|1010,4,120000ms,60000ms,Mob043-5::On1010
+043-5.gat,62,73,16,5|monster|Snake|1010,4,120000ms,60000ms,Mob043-5::On1010
+043-5.gat,104,54,9,20|monster|BlackScorpion|1009,4,120000ms,60000ms,Mob043-5::On1009
+043-5.gat,83,95,24,10|monster|BlackScorpion|1009,4,120000ms,60000ms,Mob043-5::On1009
 
 
-043-5.gat,0,0,0|script|Mob043-5|-1,
+043-5.gat,0,0,0|script|Mob043-5|-1
 {
     end;
 
