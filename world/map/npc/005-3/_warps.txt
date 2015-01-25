@@ -6,3 +6,9 @@
 005-3.gat,85,51|warp|Snake Mountain|-1,-1,006-3.gat,125,65
 005-3.gat,86,32|warp|To Outside|-1,-1,006-1.gat,55,47
 005-3.gat,73,62|warp|To Outside|-1,-1,006-1.gat,51,69
+005-3.gat,78,90|warp|Sandy Dungeon|-1,-1,043-3.gat,116,37
+005-3.gat,33,84|warp|Sandy Dungeon|-1,-1,043-3.gat,31,35
+005-3.gat,107,102|warp|To Outside|-1,-1,006-1.gat,64,78
+005-3.gat,27,41|warp|Witch Cave|-1,-1,043-5.gat,126,27
+005-3.gat,101,30|warp|Back to path|-1,-1,005-3.gat,101,35
+005-3.gat,110,79|warp|Back to path|-1,-1,005-3.gat,110,75

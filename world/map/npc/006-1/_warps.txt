@@ -27,6 +27,7 @@
 006-1.gat,21,108|warp|To Pachua's Village|-1,-1,006-2.gat,65,72
 006-1.gat,37,26|warp|To Desert Mountains|-1,-1,006-1.gat,37,23
 006-1.gat,37,24|warp|To Desert Mountains|-1,-1,006-1.gat,37,27
-006-1.gat,55,46|warp|Snake Cave|-1,-1,005-3.gat,86,31
+006-1.gat,55,46|warp|Snake Cave|-1,-1,005-3.gat,86,33
 006-1.gat,20,48|warp|To Sandstorm Desert|-1,0,002-1.gat,118,95
-006-1.gat,51,68|warp|Snake Cave|-1,-1,005-3.gat,73,59
+006-1.gat,51,68|warp|Snake Cave|-1,-1,005-3.gat,73,61
+006-1.gat,64,77|warp|Snake Cave|-1,-1,005-3.gat,107,101

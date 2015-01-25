@@ -19,5 +19,5 @@
 006-3.gat,51,90|warp|To Desert Mountains|-1,-1,006-1.gat,51,92
 006-3.gat,38,121|warp|To Desert Mountains|-1,-1,006-1.gat,38,123
 006-3.gat,79,120|warp|To Desert Mountains|-1,-1,006-1.gat,83,119
-006-3.gat,125,66|warp|Snake Cave|-1,-1,005-3.gat,85,50
-006-3.gat,89,46|warp|Snake Cave|-1,-1,005-3.gat,63,47
+006-3.gat,125,66|warp|Snake Cave|-1,-1,005-3.gat,85,52
+006-3.gat,89,46|warp|Snake Cave|-1,-1,005-3.gat,63,49

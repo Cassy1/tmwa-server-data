@@ -14,6 +14,6 @@
 002-1.gat,73,35|warp|To Tulimshar Indoor|-1,-1,002-2.gat,44,33
 002-1.gat,57,35|warp|To KPS|-1,-1,002-2.gat,120,94
 002-1.gat,67,29|warp|To Tulimshar Indoor|-1,-1,002-2.gat,23,109
-002-1.gat,113,107|warp|To Snake Cave|-1,-1,005-3.gat,52,35
+002-1.gat,113,107|warp|To Snake Cave|-1,-1,005-3.gat,52,36
 002-1.gat,49,20|warp|To Sea Cave|-1,-1,004-3.gat,24,94
 002-1.gat,57,26|warp|Omar's House|-1,-1,002-2.gat,119,131
